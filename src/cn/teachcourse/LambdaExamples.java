@@ -23,11 +23,17 @@ public class LambdaExamples {
         });
     }
     /**
-     * 例子3：遍历列表
+     * 例子3：遍历列表方式一
      */
     void example_3(){
         List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
-//        features.forEach(n -> System.out.println(n));
+        features.forEach(n -> System.out.println(n));
+    }
+    /**
+     * 例子4：遍历列表方式二
+     */
+    void example_4(){
+        List features = Arrays.asList("Lambdas", "Default Method", "Stream API", "Date and Time API");
         // 使用Java 8的方法引用更方便，方法引用由::双冒号操作符标示，
         // 看起来像C++的作用域解析运算符
         features.forEach(System.out::println);
