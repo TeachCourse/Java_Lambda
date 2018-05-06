@@ -6,6 +6,7 @@ import java.util.IntSummaryStatistics;
 import java.util.List;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LambdaExamples {
     /**
@@ -90,7 +91,7 @@ public class LambdaExamples {
     }
 
     /**
-     * 例子9：使用filter()方法
+     * 例子9：使用filter()方法，过滤符合条件的元素
      */
     void example_9() {
         //查询数组中大于200，小于400的数据
@@ -101,39 +102,69 @@ public class LambdaExamples {
     }
 
     /**
-     * 例子10：使用collect()方法
+     * 例子10：使用collect()方法，将元素组成一个新集合
      */
-    void example_10(){
+    void example_10() {
         //查询数组中大于200，小于400的数据，并放入新的集合data
-        List<Integer> costBeforeTax = Arrays.asList(100, 200, 300, 400, 500,360,300,100,420,234,756);
+        List<Integer> costBeforeTax = Arrays.asList(100, 200, 300, 400, 500, 360, 300, 100, 420, 234, 756);
         Predicate<Integer> moreThan = (s) -> s > 200;
         Predicate<Integer> lessThan = (s) -> s < 400;
-        List<Integer> data=costBeforeTax.stream().filter(moreThan.and(lessThan)).collect(Collectors.toList());
-        data.forEach(System.out::println);
-        DriverTest.line(true);
-        System.out.println(data);
-    }
-    /**
-     * 例子11：distinct()函数的使用
-     */
-    void example_11(){
-        //去掉重复的元素，并组合一个新集合data
-        List<Integer> costBeforeTax = Arrays.asList(100, 200, 300, 400, 500,360,300,100,420,234,756);
-        List<Integer> data=costBeforeTax.stream().distinct().collect(Collectors.toList());
+        List<Integer> data = costBeforeTax.stream().filter(moreThan.and(lessThan)).collect(Collectors.toList());
         data.forEach(System.out::println);
         DriverTest.line(true);
         System.out.println(data);
     }
 
     /**
-     * 例子12：IntSummaryStatistics类的用法
+     * 例子11：distinct()函数的使用，去掉重复的元素
      */
-    void example_12(){
-        List<Integer> primes = Arrays.asList(100, 200, 300, 400, 500,360,300,100,420,234,756);
+    void example_11() {
+        //去掉重复的元素，并组合一个新集合data
+        List<Integer> costBeforeTax = Arrays.asList(100, 200, 300, 400, 500, 360, 300, 100, 420, 234, 756);
+        List<Integer> data = costBeforeTax.stream().distinct().collect(Collectors.toList());
+        data.forEach(System.out::println);
+        DriverTest.line(true);
+        System.out.println(data);
+    }
+
+    /**
+     * 例子12：IntSummaryStatistics类的用法，相关类还有{@link java.util.LongSummaryStatistics}、{@link java.util.DoubleSummaryStatistics}
+     */
+    void example_12() {
+        List<Integer> primes = Arrays.asList(100, 200, 300, 400, 500, 360, 300, 100, 420, 234, 756);
         IntSummaryStatistics stats = primes.stream().mapToInt((x) -> x).summaryStatistics();
         System.out.println("Highest prime number in List : " + stats.getMax());
         System.out.println("Lowest prime number in List : " + stats.getMin());
         System.out.println("Sum of all prime numbers : " + stats.getSum());
         System.out.println("Average of all prime numbers : " + stats.getAverage());
+    }
+
+    /**
+     * 例子13：Lambda表达式访问外部变量，自动添加final修饰
+     */
+    void example_13() {
+        String who = "Who are you ?";
+
+        List<String> array = Arrays.asList("张飞", "赵云", "刘备", "孔明", "关羽");
+//        Stream.of(array).map(item->who+" "+item).forEach(System.out::println);
+        array.stream().map(item -> who + " " + item).forEach(System.out::println);
+    }
+
+    /**
+     * 例子14：Lambda表达式方法引用
+     * 实例方法引用，objectName::instanceMethod
+     * 静态方法引用，ClassName::staticMethod
+     * 构造方法引用，ClassName::new
+     */
+    void example_14() {
+        List<String> array = Arrays.asList("张飞", "赵云", "刘备", "孔明", "关羽");
+
+        for (String name : array) {
+            System.out.println(name);
+        }
+        //两者的运行结果是一样的
+        array.forEach(System.out::println);
+        array.forEach(String::new);
+
     }
 }
